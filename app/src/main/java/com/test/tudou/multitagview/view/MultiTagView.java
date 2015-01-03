@@ -12,6 +12,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 
+import com.test.tudou.multitagview.ButtonModel.Tag;
 import com.test.tudou.multitagview.util.DrawableUtils;
 
 import java.util.ArrayList;
@@ -26,7 +27,7 @@ public class MultiTagView extends LinearLayout {
     private final int DEFAULT_LAYOUT_MARGIN_TOP = 12;
     private final int DEFAULT_TAG_HEIGHT = 35;
 
-    private ArrayList<String> tags;
+    private ArrayList<Tag> tags;
 
     private int mEditTextWidth;
     private int tempWidth = 0;
@@ -73,7 +74,8 @@ public class MultiTagView extends LinearLayout {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
                                 if (!editText.getText().toString().trim().equals("")) {
-                                    tags.add(editText.getText().toString().trim());
+                                    Tag tag = new Tag(tags.size(), editText.getText().toString().trim());
+                                    tags.add(tag);
                                     refresh();
                                 }
                             }
@@ -103,19 +105,35 @@ public class MultiTagView extends LinearLayout {
         tempWidth -= dip2px(DEFAULT_BUTTON_MARGIN) + mEditTextWidth;
     }
 
-    private void addTag(String content) {
+    private void addTag(final Tag tag) {
         Button button = new Button(mContext);
-        button.setText(content);
+        button.setText(tag.content);
         button.setTextColor(Color.parseColor("#ffffff"));
         button.setTextSize(15);
-        button.setBackgroundColor(Color.parseColor(DrawableUtils.getBackgoundColor()));
+        button.setBackgroundColor(Color.parseColor(DrawableUtils.getBackgoundColor(
+                tag.content.hashCode())));
         button.setPadding(dip2px(DEFAULT_BUTTON_PADDING), dip2px(DEFAULT_BUTTON_PADDING_TOP),
                 dip2px(DEFAULT_BUTTON_PADDING), dip2px(DEFAULT_BUTTON_PADDING_TOP));
-        button.setOnClickListener(new OnClickListener() {
-
+        button.setOnLongClickListener(new OnLongClickListener() {
             @Override
-            public void onClick(View v) {
+            public boolean onLongClick(View v) {
+                new AlertDialog.Builder(mContext)
+                        .setMessage("Are you sure to delete?")
+                        .setPositiveButton("sure", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                tags.remove(tag);
+                                refresh();
+                            }
+                        })
+                        .setNegativeButton("cancel", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
 
+                            }
+                        })
+                        .show();
+                return false;
             }
         });
 
@@ -141,10 +159,18 @@ public class MultiTagView extends LinearLayout {
         mLayoutItem.setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT));
         addView(mLayoutItem);
         tempWidth = 0;
-        for (String s : tags) {
-            addTag(s);
+        for (Tag tag : tags) {
+            addTag(tag);
         }
         addClickButton();
+    }
+
+    public ArrayList<String> getTags() {
+        ArrayList<String> arrayList = new ArrayList<>();
+        for (Tag tag : tags) {
+            arrayList.add(tag.content);
+        }
+        return arrayList;
     }
 
     private int getDeviceWidth() {
@@ -157,4 +183,5 @@ public class MultiTagView extends LinearLayout {
         final float scale = mContext.getResources().getDisplayMetrics().density;
         return (int) (dipValue * scale + 0.5f);
     }
+
 }
