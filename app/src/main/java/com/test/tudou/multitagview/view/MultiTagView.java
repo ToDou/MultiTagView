@@ -12,7 +12,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 
-import com.test.tudou.multitagview.ButtonModel.Tag;
+import com.test.tudou.multitagview.model.Tag;
 import com.test.tudou.multitagview.util.DrawableUtils;
 
 import java.util.ArrayList;

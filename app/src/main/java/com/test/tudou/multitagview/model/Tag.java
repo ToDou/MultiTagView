@@ -1,4 +1,4 @@
-package com.test.tudou.multitagview.ButtonModel;
+package com.test.tudou.multitagview.model;
 
 /**
  * Created by tudou on 15-1-3.
