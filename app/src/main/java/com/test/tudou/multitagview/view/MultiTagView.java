@@ -1,10 +1,12 @@
 package com.test.tudou.multitagview.view;
 
+import android.annotation.TargetApi;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.graphics.Color;
+import android.os.Build;
 import android.util.AttributeSet;
 import android.util.DisplayMetrics;
 import android.view.View;
@@ -12,6 +14,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 
+import com.test.tudou.multitagview.drawable.StateRoundRectDrawable;
 import com.test.tudou.multitagview.model.Tag;
 import com.test.tudou.multitagview.util.DrawableUtils;
 
@@ -23,9 +26,9 @@ import java.util.ArrayList;
 public class MultiTagView extends LinearLayout {
     private final int DEFAULT_BUTTON_PADDING = 12;
     private final int DEFAULT_BUTTON_MARGIN = 12;
-    private final int DEFAULT_BUTTON_PADDING_TOP = 6;
+    private final int DEFAULT_BUTTON_PADDING_TOP = 3;
     private final int DEFAULT_LAYOUT_MARGIN_TOP = 12;
-    private final int DEFAULT_TAG_HEIGHT = 35;
+    private final int DEFAULT_TAG_HEIGHT = 28;
 
     private ArrayList<Tag> tags;
 
@@ -61,7 +64,15 @@ public class MultiTagView extends LinearLayout {
         Button buttonInput = new Button(mContext);
         buttonInput.setPadding(dip2px(DEFAULT_BUTTON_PADDING), dip2px(DEFAULT_BUTTON_PADDING_TOP), dip2px(DEFAULT_BUTTON_PADDING), dip2px(DEFAULT_BUTTON_PADDING_TOP));
         buttonInput.setText("添加");
-        buttonInput.setTextColor(Color.parseColor("#666666"));
+        buttonInput.setTextColor(Color.parseColor("#ffffff"));
+        StateRoundRectDrawable drawable = new StateRoundRectDrawable(Color.parseColor("#666666"), Color.parseColor("#5d5d5d"));
+        drawable.setDefautRadius(dip2px(DEFAULT_TAG_HEIGHT) / 2);
+        if (Build.VERSION.SDK_INT > Build.VERSION_CODES.JELLY_BEAN) {
+            buttonInput.setBackground(drawable);
+        } else {
+            buttonInput.setBackgroundDrawable(drawable);
+        }
+
         buttonInput.setTextSize(15);
         buttonInput.setOnClickListener(new OnClickListener() {
             @Override
@@ -105,13 +116,49 @@ public class MultiTagView extends LinearLayout {
         tempWidth -= dip2px(DEFAULT_BUTTON_MARGIN) + mEditTextWidth;
     }
 
+    private void addEditText() {
+        //Button buttonInput = new Button(mContext);
+        EditText editText = new EditText(mContext);
+        editText.setPadding(dip2px(DEFAULT_BUTTON_PADDING), dip2px(DEFAULT_BUTTON_PADDING_TOP), dip2px(DEFAULT_BUTTON_PADDING), dip2px(DEFAULT_BUTTON_PADDING_TOP));
+        editText.setHint("添加");
+        editText.setTextColor(Color.parseColor("#ffffff"));
+        StateRoundRectDrawable drawable = new StateRoundRectDrawable(Color.parseColor("#666666"), Color.parseColor("#5d5d5d"));
+        drawable.setDefautRadius(dip2px(DEFAULT_TAG_HEIGHT) / 2);
+        if (Build.VERSION.SDK_INT > Build.VERSION_CODES.JELLY_BEAN) {
+            editText.setBackground(drawable);
+        } else {
+            editText.setBackgroundDrawable(drawable);
+        }
+        editText.setTextSize(15);
+        mEditTextWidth = (int) (2 * dip2px(DEFAULT_BUTTON_PADDING) + editText.getPaint().measureText("添加"));
+        LayoutParams layoutParams = new LayoutParams(mEditTextWidth, dip2px(DEFAULT_TAG_HEIGHT));
+        tempWidth += dip2px(DEFAULT_BUTTON_MARGIN) + mEditTextWidth; //add tag width
+        //the last tag margin right DEFAULT_BUTTON_MARGIN, don't forget
+        if(tempWidth + dip2px(DEFAULT_BUTTON_MARGIN) > getDeviceWidth()){  //if out of screen, add a new layout
+            mLayoutItem  = new LinearLayout(mContext);
+            LayoutParams lParams = new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT);
+            lParams.topMargin = dip2px(DEFAULT_LAYOUT_MARGIN_TOP);
+            mLayoutItem.setLayoutParams(lParams);
+            addView(mLayoutItem);
+            tempWidth = (int) (2*dip2px(DEFAULT_BUTTON_PADDING) + editText.getPaint().measureText(editText.getText().toString()));
+        }
+        mLayoutItem.addView(editText, layoutParams);
+        tempWidth -= dip2px(DEFAULT_BUTTON_MARGIN) + mEditTextWidth;
+    }
+
     private void addTag(final Tag tag) {
         Button button = new Button(mContext);
         button.setText(tag.content);
         button.setTextColor(Color.parseColor("#ffffff"));
         button.setTextSize(15);
-        button.setBackgroundColor(Color.parseColor(DrawableUtils.getBackgoundColor(
-                tag.content.hashCode())));
+        StateRoundRectDrawable drawable = new StateRoundRectDrawable(Color.parseColor(DrawableUtils.getBackgoundColor(
+                tag.content.hashCode())), Color.parseColor("#5d5d5d"));
+        drawable.setDefautRadius(dip2px(DEFAULT_TAG_HEIGHT) / 2);
+        if (Build.VERSION.SDK_INT > Build.VERSION_CODES.JELLY_BEAN) {
+            button.setBackground(drawable);
+        } else {
+            button.setBackgroundDrawable(drawable);
+        }
         button.setPadding(dip2px(DEFAULT_BUTTON_PADDING), dip2px(DEFAULT_BUTTON_PADDING_TOP),
                 dip2px(DEFAULT_BUTTON_PADDING), dip2px(DEFAULT_BUTTON_PADDING_TOP));
         button.setOnLongClickListener(new OnLongClickListener() {
