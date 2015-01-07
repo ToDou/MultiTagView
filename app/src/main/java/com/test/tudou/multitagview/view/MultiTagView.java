@@ -1,19 +1,24 @@
 package com.test.tudou.multitagview.view;
 
-import android.annotation.TargetApi;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.graphics.Color;
 import android.os.Build;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.AttributeSet;
 import android.util.DisplayMetrics;
+import android.view.KeyEvent;
 import android.view.View;
+import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 
+import com.test.tudou.multitagview.R;
 import com.test.tudou.multitagview.drawable.StateRoundRectDrawable;
 import com.test.tudou.multitagview.model.Tag;
 import com.test.tudou.multitagview.util.DrawableUtils;
@@ -57,7 +62,8 @@ public class MultiTagView extends LinearLayout {
         mLayoutItem = new LinearLayout(mContext);
         mLayoutItem.setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT));
         addView(mLayoutItem);
-        addClickButton();
+        addEditText();
+        //addClickButton();
     }
 
     private void addClickButton() {
@@ -118,10 +124,25 @@ public class MultiTagView extends LinearLayout {
 
     private void addEditText() {
         //Button buttonInput = new Button(mContext);
-        EditText editText = new EditText(mContext);
+        final EditText editText = new EditText(mContext);
+        editText.setMinimumWidth(2);
+        editText.setImeOptions(EditorInfo.IME_ACTION_DONE);
+        editText.setSingleLine();
         editText.setPadding(dip2px(DEFAULT_BUTTON_PADDING), dip2px(DEFAULT_BUTTON_PADDING_TOP), dip2px(DEFAULT_BUTTON_PADDING), dip2px(DEFAULT_BUTTON_PADDING_TOP));
         editText.setHint("添加");
         editText.setTextColor(Color.parseColor("#ffffff"));
+        editText.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+            @Override
+            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+                if (actionId == EditorInfo.IME_ACTION_DONE) {
+                    Tag tag = new Tag(tags.size(), editText.getText().toString().trim());
+                    tags.add(tag);
+                    refresh();
+                    return true;
+                }
+                return false;
+            }
+        });
         StateRoundRectDrawable drawable = new StateRoundRectDrawable(Color.parseColor("#666666"), Color.parseColor("#5d5d5d"));
         drawable.setDefautRadius(dip2px(DEFAULT_TAG_HEIGHT) / 2);
         if (Build.VERSION.SDK_INT > Build.VERSION_CODES.JELLY_BEAN) {
@@ -130,8 +151,32 @@ public class MultiTagView extends LinearLayout {
             editText.setBackgroundDrawable(drawable);
         }
         editText.setTextSize(15);
+        TextWatcher textWatcher = new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                StateRoundRectDrawable drawable = new StateRoundRectDrawable(Color.parseColor("#666666"), Color.parseColor("#5d5d5d"));
+                drawable.setDefautRadius(dip2px(DEFAULT_TAG_HEIGHT) / 2);
+                if (Build.VERSION.SDK_INT > Build.VERSION_CODES.JELLY_BEAN) {
+                    editText.setBackground(drawable);
+                } else {
+                    editText.setBackgroundDrawable(drawable);
+                }
+            }
+        };
+        editText.addTextChangedListener(textWatcher);
         mEditTextWidth = (int) (2 * dip2px(DEFAULT_BUTTON_PADDING) + editText.getPaint().measureText("添加"));
-        LayoutParams layoutParams = new LayoutParams(mEditTextWidth, dip2px(DEFAULT_TAG_HEIGHT));
+        LayoutParams layoutParams = new LayoutParams(LayoutParams.WRAP_CONTENT, dip2px(DEFAULT_TAG_HEIGHT));
+
         tempWidth += dip2px(DEFAULT_BUTTON_MARGIN) + mEditTextWidth; //add tag width
         //the last tag margin right DEFAULT_BUTTON_MARGIN, don't forget
         if(tempWidth + dip2px(DEFAULT_BUTTON_MARGIN) > getDeviceWidth()){  //if out of screen, add a new layout
@@ -143,6 +188,7 @@ public class MultiTagView extends LinearLayout {
             tempWidth = (int) (2*dip2px(DEFAULT_BUTTON_PADDING) + editText.getPaint().measureText(editText.getText().toString()));
         }
         mLayoutItem.addView(editText, layoutParams);
+        editText.requestFocus();
         tempWidth -= dip2px(DEFAULT_BUTTON_MARGIN) + mEditTextWidth;
     }
 
@@ -189,7 +235,8 @@ public class MultiTagView extends LinearLayout {
         layoutParams.rightMargin = dip2px(DEFAULT_BUTTON_MARGIN);
         tempWidth += dip2px(DEFAULT_BUTTON_MARGIN) + btnWidth; //add tag width
         //the last tag margin right DEFAULT_BUTTON_MARGIN, don't forget
-        if(tempWidth + dip2px(DEFAULT_BUTTON_MARGIN) > getDeviceWidth()){  //if out of screen, add a new layout
+        int parentPadding = getResources().getDimensionPixelSize(R.dimen.activity_horizontal_margin);
+        if(tempWidth > dip2px(this.getWidth())){  //if out of screen, add a new layout
             mLayoutItem  = new LinearLayout(mContext);
             LayoutParams lParams = new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT);
             lParams.topMargin = dip2px(DEFAULT_LAYOUT_MARGIN_TOP);
@@ -209,7 +256,8 @@ public class MultiTagView extends LinearLayout {
         for (Tag tag : tags) {
             addTag(tag);
         }
-        addClickButton();
+        addEditText();
+        //addClickButton();
     }
 
     public ArrayList<String> getTags() {
