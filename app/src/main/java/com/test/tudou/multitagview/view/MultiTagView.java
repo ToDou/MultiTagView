@@ -41,6 +41,7 @@ public class MultiTagView extends LinearLayout {
     private int tempWidth = 0;
     private LinearLayout mLayoutItem;
     private Context mContext;
+    private int mTotalWidth;
 
     public MultiTagView(Context context) {
         this(context, null);
@@ -58,6 +59,8 @@ public class MultiTagView extends LinearLayout {
     }
 
     private void init() {
+        int parentPadding = getResources().getDimensionPixelSize(R.dimen.activity_horizontal_margin);
+        mTotalWidth = getDeviceWidth() - parentPadding * 2;
         tags = new ArrayList<>();
         mLayoutItem = new LinearLayout(mContext);
         mLayoutItem.setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT));
@@ -179,7 +182,7 @@ public class MultiTagView extends LinearLayout {
 
         tempWidth += dip2px(DEFAULT_BUTTON_MARGIN) + mEditTextWidth; //add tag width
         //the last tag margin right DEFAULT_BUTTON_MARGIN, don't forget
-        if(tempWidth - dip2px(DEFAULT_BUTTON_MARGIN) > this.getWidth()){  //if out of screen, add a new layout
+        if(tempWidth - dip2px(DEFAULT_BUTTON_MARGIN) > mTotalWidth){  //if out of screen, add a new layout
             mLayoutItem  = new LinearLayout(mContext);
             LayoutParams lParams = new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT);
             lParams.topMargin = dip2px(DEFAULT_LAYOUT_MARGIN_TOP);
@@ -235,13 +238,13 @@ public class MultiTagView extends LinearLayout {
         layoutParams.rightMargin = dip2px(DEFAULT_BUTTON_MARGIN);
         tempWidth += dip2px(DEFAULT_BUTTON_MARGIN) + btnWidth; //add tag width
         //the last tag margin right DEFAULT_BUTTON_MARGIN, don't forget
-        if(tempWidth - dip2px(DEFAULT_BUTTON_MARGIN) > dip2px(this.getWidth())){  //if out of screen, add a new layout
+        if(tempWidth - dip2px(DEFAULT_BUTTON_MARGIN) > mTotalWidth){  //if out of screen, add a new layout
             mLayoutItem  = new LinearLayout(mContext);
             LayoutParams lParams = new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT);
             lParams.topMargin = dip2px(DEFAULT_LAYOUT_MARGIN_TOP);
             mLayoutItem.setLayoutParams(lParams);
             addView(mLayoutItem);
-            tempWidth = dip2px(DEFAULT_BUTTON_MARGIN) + (int) (2 * dip2px(DEFAULT_BUTTON_PADDING) + button.getPaint().measureText(button.getText().toString()));
+            tempWidth = dip2px(DEFAULT_BUTTON_MARGIN) + btnWidth;
         }
         mLayoutItem.addView(button, layoutParams);
     }
