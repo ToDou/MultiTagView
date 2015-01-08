@@ -7,16 +7,20 @@ import android.content.DialogInterface;
 import android.graphics.Color;
 import android.os.Build;
 import android.text.Editable;
+import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.util.AttributeSet;
 import android.util.DisplayMetrics;
 import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.ScaleAnimation;
 import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.FrameLayout;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -139,6 +143,9 @@ public class MultiTagView extends LinearLayout {
             @Override
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
                 if (actionId == EditorInfo.IME_ACTION_DONE) {
+                    if (TextUtils.isEmpty(editText.getText().toString().trim())) {
+                        return false;
+                    }
                     Tag tag = new Tag(tags.size(), editText.getText().toString().trim());
                     tags.add(tag);
                     refresh();
@@ -211,27 +218,24 @@ public class MultiTagView extends LinearLayout {
         }
         button.setPadding(dip2px(DEFAULT_BUTTON_PADDING), dip2px(DEFAULT_BUTTON_PADDING_TOP),
                 dip2px(DEFAULT_BUTTON_PADDING), dip2px(DEFAULT_BUTTON_PADDING_TOP));
-        button.setOnLongClickListener(new OnLongClickListener() {
+        button.setOnClickListener(new OnClickListener() {
             @Override
-            public boolean onLongClick(View v) {
-                final TextView textView = new TextView(mContext);
-                textView.setText("删除");
-                textView.setBackgroundColor(getResources().getColor(android.R.color.white));
-                textView.setTextColor(getResources().getColor(android.R.color.holo_red_dark));
-                StateRoundRectDrawable drawable = new StateRoundRectDrawable(Color.parseColor("#8e8e8e"), Color.parseColor("#5d5d5d"));
-                drawable.setDefautRadius(dip2px(DEFAULT_TAG_HEIGHT) / 2);
-                if (Build.VERSION.SDK_INT > Build.VERSION_CODES.JELLY_BEAN) {
-                    textView.setBackground(drawable);
-                } else {
-                    textView.setBackgroundDrawable(drawable);
-                }
+            public void onClick(View v) {
                 final FrameLayout frameLayout = (FrameLayout) button.getParent();
-                int btnWidth = (int) (2*dip2px(DEFAULT_BUTTON_PADDING) + button.getPaint().measureText(button.getText().toString()));
-                frameLayout.addView(textView, new FrameLayout.LayoutParams(btnWidth, dip2px(DEFAULT_TAG_HEIGHT), Gravity.CENTER));
-                textView.setOnClickListener(new OnClickListener() {
+                if (frameLayout.getChildCount() > 1) {
+                    frameLayout.removeAllViews();
+                    refresh();
+                    return;
+                }
+                final ImageView imageView = new ImageView(mContext);
+                imageView.setImageResource(R.drawable.ic_delete);
+                frameLayout.addView(imageView, new FrameLayout.LayoutParams((int)(dip2px(DEFAULT_TAG_HEIGHT) * 0.8), (int)(dip2px(DEFAULT_TAG_HEIGHT) * 0.8), Gravity.CENTER));
+                imageView.setOnClickListener(new OnClickListener() {
                     @Override
                     public void onClick(View v) {
-
+                        Animation scaleAnimation = new ScaleAnimation(1.0f, 1.2f, 1.0f, 1.2f, Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.5f);
+                        scaleAnimation.setDuration(200);
+                        imageView.startAnimation(scaleAnimation);
                         new AlertDialog.Builder(mContext)
                                 .setMessage("Are you sure to delete?")
                                 .setPositiveButton("sure", new DialogInterface.OnClickListener() {
@@ -244,13 +248,12 @@ public class MultiTagView extends LinearLayout {
                                 .setNegativeButton("cancel", new DialogInterface.OnClickListener() {
                                     @Override
                                     public void onClick(DialogInterface dialog, int which) {
-                                        frameLayout.removeView(textView);
+                                        frameLayout.removeView(imageView);
                                     }
                                 })
                                 .show();
                     }
                 });
-                return false;
             }
         });
 
