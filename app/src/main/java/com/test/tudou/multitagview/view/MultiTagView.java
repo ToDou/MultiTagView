@@ -10,11 +10,14 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.AttributeSet;
 import android.util.DisplayMetrics;
+import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -196,7 +199,7 @@ public class MultiTagView extends LinearLayout {
     }
 
     private void addTag(final Tag tag) {
-        Button button = new Button(mContext);
+        final Button button = new Button(mContext);
         button.setText(tag.content);
         button.setTextColor(Color.parseColor("#ffffff"));
         button.setTextSize(15);
@@ -213,28 +216,50 @@ public class MultiTagView extends LinearLayout {
         button.setOnLongClickListener(new OnLongClickListener() {
             @Override
             public boolean onLongClick(View v) {
-                new AlertDialog.Builder(mContext)
-                        .setMessage("Are you sure to delete?")
-                        .setPositiveButton("sure", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                tags.remove(tag);
-                                refresh();
-                            }
-                        })
-                        .setNegativeButton("cancel", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
+                final TextView textView = new TextView(mContext);
+                textView.setText("删除");
+                textView.setTextColor(Color.parseColor("#ffffff"));
+                StateRoundRectDrawable drawable = new StateRoundRectDrawable(Color.parseColor("#8e8e8e"), Color.parseColor("#5d5d5d"));
+                drawable.setDefautRadius(dip2px(DEFAULT_TAG_HEIGHT) / 2);
+                if (Build.VERSION.SDK_INT > Build.VERSION_CODES.JELLY_BEAN) {
+                    textView.setBackground(drawable);
+                } else {
+                    textView.setBackgroundDrawable(drawable);
+                }
+                final FrameLayout frameLayout = (FrameLayout) button.getParent();
+                int btnWidth = (int) (2*dip2px(DEFAULT_BUTTON_PADDING) + button.getPaint().measureText(button.getText().toString()));
+                frameLayout.addView(textView, new LinearLayout.LayoutParams(btnWidth, dip2px(DEFAULT_TAG_HEIGHT), Gravity.CENTER));
+                textView.setOnClickListener(new OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
 
-                            }
-                        })
-                        .show();
+                        new AlertDialog.Builder(mContext)
+                                .setMessage("Are you sure to delete?")
+                                .setPositiveButton("sure", new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        tags.remove(tag);
+                                        refresh();
+                                    }
+                                })
+                                .setNegativeButton("cancel", new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        frameLayout.removeView(textView);
+                                    }
+                                })
+                                .show();
+                    }
+                });
                 return false;
             }
         });
 
         int btnWidth = (int) (2*dip2px(DEFAULT_BUTTON_PADDING) + button.getPaint().measureText(button.getText().toString()));
         LayoutParams layoutParams = new LayoutParams(btnWidth, dip2px(DEFAULT_TAG_HEIGHT));
+        FrameLayout frameLayout = new FrameLayout(mContext);
+        frameLayout.setLayoutParams(layoutParams);
+        frameLayout.addView(button);
         layoutParams.rightMargin = dip2px(DEFAULT_BUTTON_MARGIN);
         tempWidth += dip2px(DEFAULT_BUTTON_MARGIN) + btnWidth; //add tag width
         //the last tag margin right DEFAULT_BUTTON_MARGIN, don't forget
@@ -246,7 +271,7 @@ public class MultiTagView extends LinearLayout {
             addView(mLayoutItem);
             tempWidth = dip2px(DEFAULT_BUTTON_MARGIN) + btnWidth;
         }
-        mLayoutItem.addView(button, layoutParams);
+        mLayoutItem.addView(frameLayout, layoutParams);
     }
 
     private void refresh() {
