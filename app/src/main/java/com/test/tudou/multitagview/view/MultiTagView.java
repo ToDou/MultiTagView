@@ -13,7 +13,6 @@ import android.util.DisplayMetrics;
 import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
 import android.widget.EditText;
@@ -129,14 +128,13 @@ public class MultiTagView extends LinearLayout {
     }
 
     private void addEditText() {
-        //Button buttonInput = new Button(mContext);
         final EditText editText = new EditText(mContext);
         editText.setMinimumWidth(2);
         editText.setImeOptions(EditorInfo.IME_ACTION_DONE);
         editText.setSingleLine();
         editText.setPadding(dip2px(DEFAULT_BUTTON_PADDING), dip2px(DEFAULT_BUTTON_PADDING_TOP), dip2px(DEFAULT_BUTTON_PADDING), dip2px(DEFAULT_BUTTON_PADDING_TOP));
         editText.setHint("添加");
-        editText.setTextColor(Color.parseColor("#ffffff"));
+        editText.setTextColor(getResources().getColor(android.R.color.white));
         editText.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
@@ -201,7 +199,7 @@ public class MultiTagView extends LinearLayout {
     private void addTag(final Tag tag) {
         final Button button = new Button(mContext);
         button.setText(tag.content);
-        button.setTextColor(Color.parseColor("#ffffff"));
+        button.setTextColor(getResources().getColor(android.R.color.white));
         button.setTextSize(15);
         StateRoundRectDrawable drawable = new StateRoundRectDrawable(Color.parseColor(DrawableUtils.getBackgoundColor(
                 tag.content.hashCode())), Color.parseColor("#5d5d5d"));
@@ -218,7 +216,8 @@ public class MultiTagView extends LinearLayout {
             public boolean onLongClick(View v) {
                 final TextView textView = new TextView(mContext);
                 textView.setText("删除");
-                textView.setTextColor(Color.parseColor("#ffffff"));
+                textView.setBackgroundColor(getResources().getColor(android.R.color.white));
+                textView.setTextColor(getResources().getColor(android.R.color.holo_red_dark));
                 StateRoundRectDrawable drawable = new StateRoundRectDrawable(Color.parseColor("#8e8e8e"), Color.parseColor("#5d5d5d"));
                 drawable.setDefautRadius(dip2px(DEFAULT_TAG_HEIGHT) / 2);
                 if (Build.VERSION.SDK_INT > Build.VERSION_CODES.JELLY_BEAN) {
@@ -228,7 +227,7 @@ public class MultiTagView extends LinearLayout {
                 }
                 final FrameLayout frameLayout = (FrameLayout) button.getParent();
                 int btnWidth = (int) (2*dip2px(DEFAULT_BUTTON_PADDING) + button.getPaint().measureText(button.getText().toString()));
-                frameLayout.addView(textView, new LinearLayout.LayoutParams(btnWidth, dip2px(DEFAULT_TAG_HEIGHT), Gravity.CENTER));
+                frameLayout.addView(textView, new FrameLayout.LayoutParams(btnWidth, dip2px(DEFAULT_TAG_HEIGHT), Gravity.CENTER));
                 textView.setOnClickListener(new OnClickListener() {
                     @Override
                     public void onClick(View v) {
