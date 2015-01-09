@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    
+    <declare-styleable name="MultiTagView">
+        <attr name="parentMargin" format="dimension"/>
+        <attr name="buttonAddColor" format="color"/>
+        <attr name="buttonAddClickColor" format="color"/>
+        <attr name="tagTextColor" format="color"/>
+        <attr name="tagClickColor" format="color"/>
+        <attr name="tagPadding" format="dimension"/>
+        <attr name="tagMargin" format="dimension"/>
+        <attr name="tagPaddingTop" format="dimension"/>
+        <attr name="tagPaddingBottom" format="dimension"/>
+        <attr name="tagPaddingRight" format="dimension"/>
+        <attr name="tagPaddingLeft" format="dimension"/>
+        <attr name="tagMarginTop" format="dimension"/>
+        <attr name="tagHeight" format="dimension"/>
+    </declare-styleable>
+
+</resources>

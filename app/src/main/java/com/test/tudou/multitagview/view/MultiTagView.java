@@ -41,13 +41,28 @@ public class MultiTagView extends LinearLayout {
     private final int DEFAULT_LAYOUT_MARGIN_TOP = 12;
     private final int DEFAULT_TAG_HEIGHT = 28;
 
-    private ArrayList<Tag> tags;
-
     private int mEditTextWidth;
     private int tempWidth = 0;
     private LinearLayout mLayoutItem;
     private Context mContext;
     private int mTotalWidth;
+    private ArrayList<Tag> tags;
+
+
+    private int parentMargin;
+    private String[] tagColors;
+    private String buttonAddColor;
+    private String buttonAddClickColor;
+    private String tagTextColor;
+    private String tagClickColor;
+    private int tagPading;
+    private int tagMargin;
+    private int tagPaddingTop;
+    private int tagPaddingBottom;
+    private int tagPaddingRight;
+    private int tagPaddingLeft;
+    private int tagMarginTop;
+    private int tagHeight;
 
     public MultiTagView(Context context) {
         this(context, null);
@@ -306,6 +321,96 @@ public class MultiTagView extends LinearLayout {
     private int dip2px(float dipValue) {
         final float scale = mContext.getResources().getDisplayMetrics().density;
         return (int) (dipValue * scale + 0.5f);
+    }
+
+
+
+    public int getTagHeight() {
+        return tagHeight;
+    }
+
+    public void setTagHeight(int tagHeight) {
+        this.tagHeight = tagHeight;
+    }
+
+    public int getTagMarginTop() {
+        return tagMarginTop;
+    }
+
+    public void setTagMarginTop(int tagMarginTop) {
+        this.tagMarginTop = tagMarginTop;
+    }
+
+    public int getTagPaddingTop() {
+        return tagPaddingTop;
+    }
+
+    public void setTagPaddingTop(int tagPaddingTop) {
+        this.tagPaddingTop = tagPaddingTop;
+    }
+
+    public int getTagMargin() {
+        return tagMargin;
+    }
+
+    public void setTagMargin(int tagMargin) {
+        this.tagMargin = tagMargin;
+    }
+
+    public int getTagPading() {
+        return tagPading;
+    }
+
+    public void setTagPading(int tagPading) {
+        this.tagPading = tagPading;
+    }
+
+    public String getTagClickColor() {
+        return tagClickColor;
+    }
+
+    public void setTagClickColor(String tagClickColor) {
+        this.tagClickColor = tagClickColor;
+    }
+
+    public String getTagTextColor() {
+        return tagTextColor;
+    }
+
+    public void setTagTextColor(String tagTextColor) {
+        this.tagTextColor = tagTextColor;
+    }
+
+    public String getButtonAddClickColor() {
+        return buttonAddClickColor;
+    }
+
+    public void setButtonAddClickColor(String buttonAddClickColor) {
+        this.buttonAddClickColor = buttonAddClickColor;
+    }
+
+    public String getButtonAddColor() {
+        return buttonAddColor;
+    }
+
+    public void setButtonAddColor(String buttonAddColor) {
+        this.buttonAddColor = buttonAddColor;
+    }
+
+    public String[] getTagColors() {
+        return tagColors;
+    }
+
+    public void setTagColors(String[] tagColors) {
+        this.tagColors = tagColors;
+    }
+
+    public int getParentMargin() {
+        return parentMargin;
+    }
+
+    public void setParentMargin(int parentMargin) {
+        this.parentMargin = parentMargin;
     }
 
 }
