@@ -15,6 +15,7 @@
         <attr name="tagPaddingLeft" format="dimension"/>
         <attr name="tagMarginTop" format="dimension"/>
         <attr name="tagHeight" format="dimension"/>
+        <attr name="deleteDrawable" format="reference"/>
     </declare-styleable>
 
 </resources>

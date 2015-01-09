@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.res.TypedArray;
 import android.graphics.Color;
 import android.os.Build;
 import android.text.Editable;
@@ -63,6 +64,7 @@ public class MultiTagView extends LinearLayout {
     private int tagPaddingLeft;
     private int tagMarginTop;
     private int tagHeight;
+    private int deleteDrawable;
 
     public MultiTagView(Context context) {
         this(context, null);
@@ -76,6 +78,18 @@ public class MultiTagView extends LinearLayout {
         super(context, attrs, defStyleAttr);
         setOrientation(VERTICAL);
         mContext = context;
+
+        if (attrs == null) return;
+        final TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.MultiTagView, defStyleAttr, 0);
+        if (a == null) return;
+
+        setParentMargin(a.getDimensionPixelSize(R.styleable.MultiTagView_parentMargin, 12));
+        setButtonAddColor(a.getString(R.styleable.MultiTagView_buttonAddColor));
+        setButtonAddClickColor(a.getString(R.styleable.MultiTagView_buttonAddClickColor));
+        //setTagTextColor(a.getC);
+
+
+
         init();
     }
 
@@ -323,8 +337,6 @@ public class MultiTagView extends LinearLayout {
         return (int) (dipValue * scale + 0.5f);
     }
 
-
-
     public int getTagHeight() {
         return tagHeight;
     }
@@ -413,4 +425,35 @@ public class MultiTagView extends LinearLayout {
         this.parentMargin = parentMargin;
     }
 
+    public int getTagPaddingBottom() {
+        return tagPaddingBottom;
+    }
+
+    public void setTagPaddingBottom(int tagPaddingBottom) {
+        this.tagPaddingBottom = tagPaddingBottom;
+    }
+
+    public int getTagPaddingRight() {
+        return tagPaddingRight;
+    }
+
+    public void setTagPaddingRight(int tagPaddingRight) {
+        this.tagPaddingRight = tagPaddingRight;
+    }
+
+    public int getTagPaddingLeft() {
+        return tagPaddingLeft;
+    }
+
+    public void setTagPaddingLeft(int tagPaddingLeft) {
+        this.tagPaddingLeft = tagPaddingLeft;
+    }
+
+    public int getDeleteDrawable() {
+        return deleteDrawable;
+    }
+
+    public void setDeleteDrawable(int deleteDrawable) {
+        this.deleteDrawable = deleteDrawable;
+    }
 }
