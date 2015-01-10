@@ -36,9 +36,9 @@ import java.util.ArrayList;
  * Created by tudou on 15-1-3.
  */
 public class MultiTagView extends LinearLayout {
-    private final int DEFAULT_BUTTON_PADDING = 12;
-    private final int DEFAULT_BUTTON_MARGIN = 12;
-    private final int DEFAULT_BUTTON_PADDING_TOP = 3;
+    private final int DEFAULT_TAG_PADDING = 12;
+    private final int DEFAULT_TAG_MARGIN = 12;
+    private final int DEFAULT_TAG_PADDING_TOP = 3;
     private final int DEFAULT_LAYOUT_MARGIN_TOP = 12;
     private final int DEFAULT_TAG_HEIGHT = 28;
 
@@ -86,7 +86,14 @@ public class MultiTagView extends LinearLayout {
         setParentMargin(a.getDimensionPixelSize(R.styleable.MultiTagView_parentMargin, 12));
         setButtonAddColor(a.getString(R.styleable.MultiTagView_buttonAddColor));
         setButtonAddClickColor(a.getString(R.styleable.MultiTagView_buttonAddClickColor));
-        //setTagTextColor(a.getC);
+        setTagTextColor(a.getString(R.styleable.MultiTagView_tagTextColor));
+        setTagClickColor(a.getString(R.styleable.MultiTagView_tagClickColor));
+        setTagPading(a.getDimensionPixelSize(R.styleable.MultiTagView_tagPadding, DEFAULT_TAG_PADDING));
+        setTagPaddingTop(a.getDimensionPixelSize(R.styleable.MultiTagView_tagPadding, DEFAULT_TAG_PADDING_TOP));
+        setTagPaddingBottom(a.getDimensionPixelSize(R.styleable.MultiTagView_tagPadding, DEFAULT_TAG_PADDING_TOP));
+        setTagPaddingRight(a.getDimensionPixelSize(R.styleable.MultiTagView_tagPadding, DEFAULT_TAG_PADDING));
+        setTagPaddingLeft(a.getDimensionPixelSize(R.styleable.MultiTagView_tagPadding, DEFAULT_TAG_PADDING));
+
 
 
 
@@ -106,7 +113,7 @@ public class MultiTagView extends LinearLayout {
 
     private void addClickButton() {
         Button buttonInput = new Button(mContext);
-        buttonInput.setPadding(dip2px(DEFAULT_BUTTON_PADDING), dip2px(DEFAULT_BUTTON_PADDING_TOP), dip2px(DEFAULT_BUTTON_PADDING), dip2px(DEFAULT_BUTTON_PADDING_TOP));
+        buttonInput.setPadding(dip2px(DEFAULT_TAG_PADDING), dip2px(DEFAULT_TAG_PADDING_TOP), dip2px(DEFAULT_TAG_PADDING), dip2px(DEFAULT_TAG_PADDING_TOP));
         buttonInput.setText("添加");
         buttonInput.setTextColor(Color.parseColor("#ffffff"));
         StateRoundRectDrawable drawable = new StateRoundRectDrawable(Color.parseColor("#666666"), Color.parseColor("#5d5d5d"));
@@ -144,20 +151,20 @@ public class MultiTagView extends LinearLayout {
                         .show();
             }
         });
-        mEditTextWidth = (int) (2 * dip2px(DEFAULT_BUTTON_PADDING) + buttonInput.getPaint().measureText("添加"));
+        mEditTextWidth = (int) (2 * dip2px(DEFAULT_TAG_PADDING) + buttonInput.getPaint().measureText("添加"));
         LayoutParams layoutParams = new LayoutParams(mEditTextWidth, dip2px(DEFAULT_TAG_HEIGHT));
-        tempWidth += dip2px(DEFAULT_BUTTON_MARGIN) + mEditTextWidth; //add tag width
-        //the last tag margin right DEFAULT_BUTTON_MARGIN, don't forget
-        if(tempWidth + dip2px(DEFAULT_BUTTON_MARGIN) > getDeviceWidth()){  //if out of screen, add a new layout
+        tempWidth += dip2px(DEFAULT_TAG_MARGIN) + mEditTextWidth; //add tag width
+
+        if(tempWidth + dip2px(DEFAULT_TAG_MARGIN) > getDeviceWidth()){  //if out of screen, add a new layout
             mLayoutItem  = new LinearLayout(mContext);
             LayoutParams lParams = new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT);
             lParams.topMargin = dip2px(DEFAULT_LAYOUT_MARGIN_TOP);
             mLayoutItem.setLayoutParams(lParams);
             addView(mLayoutItem);
-            tempWidth = (int) (2*dip2px(DEFAULT_BUTTON_PADDING) + buttonInput.getPaint().measureText(buttonInput.getText().toString()));
+            tempWidth = (int) (2*dip2px(DEFAULT_TAG_PADDING) + buttonInput.getPaint().measureText(buttonInput.getText().toString()));
         }
         mLayoutItem.addView(buttonInput, layoutParams);
-        tempWidth -= dip2px(DEFAULT_BUTTON_MARGIN) + mEditTextWidth;
+        tempWidth -= dip2px(DEFAULT_TAG_MARGIN) + mEditTextWidth;
     }
 
     private void addEditText() {
@@ -165,7 +172,7 @@ public class MultiTagView extends LinearLayout {
         editText.setMinimumWidth(2);
         editText.setImeOptions(EditorInfo.IME_ACTION_DONE);
         editText.setSingleLine();
-        editText.setPadding(dip2px(DEFAULT_BUTTON_PADDING), dip2px(DEFAULT_BUTTON_PADDING_TOP), dip2px(DEFAULT_BUTTON_PADDING), dip2px(DEFAULT_BUTTON_PADDING_TOP));
+        editText.setPadding(dip2px(DEFAULT_TAG_PADDING), dip2px(DEFAULT_TAG_PADDING_TOP), dip2px(DEFAULT_TAG_PADDING), dip2px(DEFAULT_TAG_PADDING_TOP));
         editText.setHint("添加");
         editText.setTextColor(getResources().getColor(android.R.color.white));
         editText.setOnEditorActionListener(new TextView.OnEditorActionListener() {
@@ -214,22 +221,22 @@ public class MultiTagView extends LinearLayout {
             }
         };
         editText.addTextChangedListener(textWatcher);
-        mEditTextWidth = (int) (2 * dip2px(DEFAULT_BUTTON_PADDING) + editText.getPaint().measureText("添加"));
+        mEditTextWidth = (int) (2 * dip2px(DEFAULT_TAG_PADDING) + editText.getPaint().measureText("添加"));
         LayoutParams layoutParams = new LayoutParams(LayoutParams.WRAP_CONTENT, dip2px(DEFAULT_TAG_HEIGHT));
 
-        tempWidth += dip2px(DEFAULT_BUTTON_MARGIN) + mEditTextWidth; //add tag width
-        //the last tag margin right DEFAULT_BUTTON_MARGIN, don't forget
-        if(tempWidth - dip2px(DEFAULT_BUTTON_MARGIN) > mTotalWidth){  //if out of screen, add a new layout
+        tempWidth += dip2px(DEFAULT_TAG_MARGIN) + mEditTextWidth; //add tag width
+
+        if(tempWidth - dip2px(DEFAULT_TAG_MARGIN) > mTotalWidth){  //if out of screen, add a new layout
             mLayoutItem  = new LinearLayout(mContext);
             LayoutParams lParams = new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT);
             lParams.topMargin = dip2px(DEFAULT_LAYOUT_MARGIN_TOP);
             mLayoutItem.setLayoutParams(lParams);
             addView(mLayoutItem);
-            tempWidth = dip2px(DEFAULT_BUTTON_MARGIN) + mEditTextWidth;
+            tempWidth = dip2px(DEFAULT_TAG_MARGIN) + mEditTextWidth;
         }
         mLayoutItem.addView(editText, layoutParams);
         editText.requestFocus();
-        tempWidth -= dip2px(DEFAULT_BUTTON_MARGIN) + mEditTextWidth;
+        tempWidth -= dip2px(DEFAULT_TAG_MARGIN) + mEditTextWidth;
     }
 
     private void addTag(final Tag tag) {
@@ -245,8 +252,8 @@ public class MultiTagView extends LinearLayout {
         } else {
             button.setBackgroundDrawable(drawable);
         }
-        button.setPadding(dip2px(DEFAULT_BUTTON_PADDING), dip2px(DEFAULT_BUTTON_PADDING_TOP),
-                dip2px(DEFAULT_BUTTON_PADDING), dip2px(DEFAULT_BUTTON_PADDING_TOP));
+        button.setPadding(dip2px(DEFAULT_TAG_PADDING), dip2px(DEFAULT_TAG_PADDING_TOP),
+                dip2px(DEFAULT_TAG_PADDING), dip2px(DEFAULT_TAG_PADDING_TOP));
         button.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -286,21 +293,21 @@ public class MultiTagView extends LinearLayout {
             }
         });
 
-        int btnWidth = (int) (2*dip2px(DEFAULT_BUTTON_PADDING) + button.getPaint().measureText(button.getText().toString()));
+        int btnWidth = (int) (2*dip2px(DEFAULT_TAG_PADDING) + button.getPaint().measureText(button.getText().toString()));
         LayoutParams layoutParams = new LayoutParams(btnWidth, dip2px(DEFAULT_TAG_HEIGHT));
         FrameLayout frameLayout = new FrameLayout(mContext);
         frameLayout.setLayoutParams(layoutParams);
         frameLayout.addView(button);
-        layoutParams.rightMargin = dip2px(DEFAULT_BUTTON_MARGIN);
-        tempWidth += dip2px(DEFAULT_BUTTON_MARGIN) + btnWidth; //add tag width
+        layoutParams.rightMargin = dip2px(DEFAULT_TAG_MARGIN);
+        tempWidth += dip2px(DEFAULT_TAG_MARGIN) + btnWidth; //add tag width
         //the last tag margin right DEFAULT_BUTTON_MARGIN, don't forget
-        if(tempWidth - dip2px(DEFAULT_BUTTON_MARGIN) > mTotalWidth){  //if out of screen, add a new layout
+        if(tempWidth - dip2px(DEFAULT_TAG_MARGIN) > mTotalWidth){  //if out of screen, add a new layout
             mLayoutItem  = new LinearLayout(mContext);
             LayoutParams lParams = new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT);
             lParams.topMargin = dip2px(DEFAULT_LAYOUT_MARGIN_TOP);
             mLayoutItem.setLayoutParams(lParams);
             addView(mLayoutItem);
-            tempWidth = dip2px(DEFAULT_BUTTON_MARGIN) + btnWidth;
+            tempWidth = dip2px(DEFAULT_TAG_MARGIN) + btnWidth;
         }
         mLayoutItem.addView(frameLayout, layoutParams);
     }
