@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.res.TypedArray;
 import android.graphics.Color;
+import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.text.Editable;
 import android.text.TextUtils;
@@ -49,7 +50,6 @@ public class MultiTagView extends LinearLayout {
     private int mTotalWidth;
     private ArrayList<Tag> tags;
 
-
     private int parentMargin;
     private String[] tagColors;
     private String buttonAddColor;
@@ -64,7 +64,7 @@ public class MultiTagView extends LinearLayout {
     private int tagPaddingLeft;
     private int tagMarginTop;
     private int tagHeight;
-    private int deleteDrawable;
+    private Drawable deleteDrawable;
 
     public MultiTagView(Context context) {
         this(context, null);
@@ -93,8 +93,8 @@ public class MultiTagView extends LinearLayout {
         setTagPaddingBottom(a.getDimensionPixelSize(R.styleable.MultiTagView_tagPadding, DEFAULT_TAG_PADDING_TOP));
         setTagPaddingRight(a.getDimensionPixelSize(R.styleable.MultiTagView_tagPadding, DEFAULT_TAG_PADDING));
         setTagPaddingLeft(a.getDimensionPixelSize(R.styleable.MultiTagView_tagPadding, DEFAULT_TAG_PADDING));
-
-
+        setTagMarginTop(a.getDimensionPixelSize(R.styleable.MultiTagView_tagHeight, DEFAULT_TAG_HEIGHT));
+        setDeleteDrawable(a.getDrawable(R.styleable.MultiTagView_deleteDrawable));
 
 
         init();
@@ -456,11 +456,11 @@ public class MultiTagView extends LinearLayout {
         this.tagPaddingLeft = tagPaddingLeft;
     }
 
-    public int getDeleteDrawable() {
+    public Drawable getDeleteDrawable() {
         return deleteDrawable;
     }
 
-    public void setDeleteDrawable(int deleteDrawable) {
+    public void setDeleteDrawable(Drawable deleteDrawable) {
         this.deleteDrawable = deleteDrawable;
     }
 }
