@@ -325,6 +325,12 @@ public class MultiTagView extends LinearLayout {
         //addClickButton();
     }
 
+    public void addTag(String s) {
+        Tag tag = new Tag(tags.size(), s);
+        tags.add(tag);
+        refresh();
+    }
+
     public ArrayList<String> getTags() {
         ArrayList<String> arrayList = new ArrayList<>();
         for (Tag tag : tags) {
