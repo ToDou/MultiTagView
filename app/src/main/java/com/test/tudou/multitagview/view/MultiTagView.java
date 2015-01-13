@@ -65,6 +65,8 @@ public class MultiTagView extends LinearLayout {
     private int tagMarginTop;
     private int tagHeight;
     private Drawable deleteDrawable;
+    private boolean tagClickable;
+    private boolean showAddButton;
 
     public MultiTagView(Context context) {
         this(context, null);
@@ -107,6 +109,8 @@ public class MultiTagView extends LinearLayout {
         mLayoutItem = new LinearLayout(mContext);
         mLayoutItem.setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT));
         addView(mLayoutItem);
+        tagClickable = true;
+        showAddButton = true;
         addEditText();
         //addClickButton();
     }
@@ -168,6 +172,9 @@ public class MultiTagView extends LinearLayout {
     }
 
     private void addEditText() {
+        if (!showAddButton) {
+            return;
+        }
         final EditText editText = new EditText(mContext);
         editText.setMinimumWidth(2);
         editText.setImeOptions(EditorInfo.IME_ACTION_DONE);
@@ -292,6 +299,7 @@ public class MultiTagView extends LinearLayout {
                 });
             }
         });
+        button.setEnabled(tagClickable);
 
         int btnWidth = (int) (2*dip2px(DEFAULT_TAG_PADDING) + button.getPaint().measureText(button.getText().toString()));
         LayoutParams layoutParams = new LayoutParams(btnWidth, dip2px(DEFAULT_TAG_HEIGHT));
@@ -329,6 +337,25 @@ public class MultiTagView extends LinearLayout {
         Tag tag = new Tag(tags.size(), s);
         tags.add(tag);
         refresh();
+    }
+
+    public void addTags(ArrayList<String> arrayList) {
+        for (String s : arrayList) {
+            Tag tag = new Tag(tags.size(), s);
+            tags.add(tag);
+        }
+        refresh();
+    }
+
+    public void setShowAddButton(boolean show) {
+        showAddButton = show;
+        refresh();
+    }
+
+    public void setTagClickable(boolean able) {
+        tagClickable = able;
+        refresh();
+
     }
 
     public ArrayList<String> getTags() {
