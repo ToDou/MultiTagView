@@ -347,6 +347,11 @@ public class MultiTagView extends LinearLayout {
         refresh();
     }
 
+    public void removeTagAt(int i) {
+        tags.remove(i);
+        refresh();
+    }
+
     public void setShowAddButton(boolean show) {
         showAddButton = show;
         refresh();
