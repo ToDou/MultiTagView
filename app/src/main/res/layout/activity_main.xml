@@ -11,6 +11,7 @@
 
     <com.test.tudou.multitagview.view.MultiTagView
         android:id="@+id/tag_view_add_by_list"
+        android:layout_marginTop="@dimen/activity_vertical_margin"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
 
