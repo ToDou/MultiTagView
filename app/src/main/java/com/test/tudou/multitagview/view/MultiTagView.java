@@ -171,6 +171,9 @@ public class MultiTagView extends LinearLayout {
         tempWidth -= dip2px(DEFAULT_TAG_MARGIN) + mEditTextWidth;
     }
 
+    /*
+    add the tag by edit
+     */
     private void addEditText() {
         if (!showAddButton) {
             return;
