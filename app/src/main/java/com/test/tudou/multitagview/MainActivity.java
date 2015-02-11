@@ -2,37 +2,39 @@ package com.test.tudou.multitagview;
 
 import android.app.Activity;
 import android.os.Bundle;
-import android.view.Menu;
-import android.view.MenuItem;
 
 import com.test.tudou.multitagview.view.MultiTagView;
 
 import java.util.ArrayList;
 
+import butterknife.ButterKnife;
+import butterknife.InjectView;
+
 
 public class MainActivity extends Activity {
+    @InjectView(R.id.tag_view_add)
+    MultiTagView mTagViewAdd;
+    @InjectView(R.id.tag_view_add_by_list)
+    MultiTagView mTagViewAddByList;
     //https://github.com/cloay/CTagView
-
-    MultiTagView multiTagView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
-        multiTagView = (MultiTagView) findViewById(R.id.tag_view_add_by_list);
+        ButterKnife.inject(this);
 
         updateView();
     }
 
     private void updateView() {
-        multiTagView.setTagClickable(false);
-        multiTagView.setShowAddButton(false);
+        mTagViewAddByList.setTagClickable(false);
+        mTagViewAddByList.setShowAddButton(false);
         ArrayList<String> arrayList = new ArrayList<>();
         arrayList.add("苹果");
         arrayList.add("葡萄");
         arrayList.add("西红柿");
         arrayList.add("哈哈哈哈哈");
-        multiTagView.addTags(arrayList);
+        mTagViewAddByList.addTags(arrayList);
     }
 }
