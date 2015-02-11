@@ -350,6 +350,11 @@ public class MultiTagView extends LinearLayout {
         refresh();
     }
 
+    public void removeAllTagView() {
+        tags.clear();
+        refresh();
+    }
+
     public void removeTagAt(int i) {
         tags.remove(i);
         refresh();
