@@ -1,4 +1,4 @@
-package com.test.tudou.multitagview.view;
+package com.tudou.library.ui.view;
 
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -26,10 +26,10 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.test.tudou.multitagview.R;
-import com.test.tudou.multitagview.drawable.StateRoundRectDrawable;
-import com.test.tudou.multitagview.model.Tag;
-import com.test.tudou.multitagview.util.DrawableUtils;
+import com.tudou.library.R;
+import com.tudou.library.drawable.StateRoundRectDrawable;
+import com.tudou.library.model.Tag;
+import com.tudou.library.util.DrawableUtils;
 
 import java.util.ArrayList;
 

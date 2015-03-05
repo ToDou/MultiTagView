@@ -1,4 +1,4 @@
-package com.test.tudou.multitagview.model;
+package com.tudou.library.model;
 
 /**
  * Created by tudou on 15-1-3.

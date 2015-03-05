@@ -1,11 +1,10 @@
-apply plugin: 'com.android.application'
+apply plugin: 'com.android.library'
 
 android {
     compileSdkVersion 21
     buildToolsVersion "21.1.2"
 
     defaultConfig {
-        applicationId "com.test.tudou.multitagview"
         minSdkVersion 15
         targetSdkVersion 21
         versionCode 1
@@ -21,7 +20,4 @@ android {
 
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
-
-    compile 'com.jakewharton:butterknife:6.0.0'
-    compile project(':library')
 }

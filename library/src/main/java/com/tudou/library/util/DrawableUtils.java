@@ -1,4 +1,4 @@
-package com.test.tudou.multitagview.util;
+package com.tudou.library.util;
 
 
 /**

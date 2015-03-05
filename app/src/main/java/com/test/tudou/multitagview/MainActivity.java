@@ -3,9 +3,7 @@ package com.test.tudou.multitagview;
 import android.app.Activity;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.Button;
-
-import com.test.tudou.multitagview.view.MultiTagView;
+import com.tudou.library.ui.view.MultiTagView;
 
 import java.util.ArrayList;
 

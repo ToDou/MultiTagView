@@ -1,4 +1,4 @@
-package com.test.tudou.multitagview.drawable;
+package com.tudou.library.drawable;
 
 import android.graphics.Canvas;
 import android.graphics.Color;

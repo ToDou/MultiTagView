@@ -13,7 +13,7 @@
         android:layout_height="wrap_content"
         android:orientation="vertical">
 
-        <com.test.tudou.multitagview.view.MultiTagView
+        <com.tudou.library.ui.view.MultiTagView
             android:id="@+id/tag_view_add"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
@@ -27,7 +27,7 @@
             android:textColor="#5d5d5d"
             android:text="Result:"/>
 
-        <com.test.tudou.multitagview.view.MultiTagView
+        <com.tudou.library.ui.view.MultiTagView
             android:id="@+id/tag_view_add_by_list"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"/>
