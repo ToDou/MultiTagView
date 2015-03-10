@@ -7,7 +7,8 @@ Screeshot
 ====
 ![](/screenshot.gif)
 
-#### License
+License
+====
 <pre>
 Copyright 2015 ToDou
 
