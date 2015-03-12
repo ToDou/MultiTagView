@@ -1,6 +1,7 @@
 MultiTagView
 ============
 
+[![Maven Central](https://maven-badges.herokuapp.com/maven-central/com.github.todou/multitagview/badge.svg)](https://maven-badges.herokuapp.com/maven-central/com.github.todou/multitagview)
 You can add tags by input something
 
 Screeshot
