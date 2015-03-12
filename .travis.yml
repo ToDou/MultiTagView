@@ -16,7 +16,6 @@ env:
 
 before_install:
     # Making sure gradlew has executable permissions
-    - cd MultiTagView
     - chmod a+x gradlew
 
 android:
