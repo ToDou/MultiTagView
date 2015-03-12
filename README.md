@@ -1,6 +1,7 @@
 MultiTagView
 ============
 [![Maven Central](https://maven-badges.herokuapp.com/maven-central/com.github.todou/multitagview/badge.svg)](https://maven-badges.herokuapp.com/maven-central/com.github.todou/multitagview)
+[![Build Status](https://travis-ci.org/ToDou/MultiTagView.svg?branch=master)](https://travis-ci.org/ToDou/MultiTagView)
 
 One library. You can add tags by input something
 
