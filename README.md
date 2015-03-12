@@ -1,12 +1,33 @@
 MultiTagView
 ============
-
 [![Maven Central](https://maven-badges.herokuapp.com/maven-central/com.github.todou/multitagview/badge.svg)](https://maven-badges.herokuapp.com/maven-central/com.github.todou/multitagview)
-You can add tags by input something
+
+One library. You can add tags by input something
 
 Screeshot
 ====
 ![](/screenshot.gif)
+
+Installation
+====
+```groovy
+dependencies {
+    compile 'com.github.todou:multitagview:1.0.0'
+}
+```
+
+Usage
+====
+```xml
+    <com.tudou.library.ui.view.MultiTagView
+            android:id="@+id/tag_view_add"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+```
+
+Thanks
+====
+[CTagView](https://github.com/cloay/CTagView)
 
 License
 ====
